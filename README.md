@@ -20,6 +20,7 @@
 # Unit 1
 
 ## What This Does
+This project uses the city_guides corpus, which contains longer travel guides covering nine towns along with guides that compare information across towns. The system is designed to answer questions about places other travel-related information. Because the information is organized under headings and can be spread across multiple paragraphs, the system needs to retrieve enough surrounding context to answer questions accurately. The goal is to return relevant sections of the guides rather than isolated sentences that may lose important context.
 
 <!-- Three or four sentences. Which corpus you picked, and the kinds of
      questions your system answers. Write it for someone who has never seen
@@ -29,8 +30,10 @@
 
 ## Chunking Strategy
 
-**Chunk size:**
-**Overlap:**
+**Chunk size:** 500
+**Overlap:** 75
+ moderate chunk size because the city_guides documents are much longer than the short posts in the other corpora, and useful information is often spread across several paragraphs within a section. 
+  75-token overlap so that information near the boundary between two chunks is less likely to be split apart. I considered using a larger chunk size, but the sectioned structure of the guides made it more useful to keep chunks focused while still preserving some surrounding context.
 
 <!-- What about YOUR documents made you pick these numbers? Short posts and
      long sectioned guides don't want the same chunking, and "800 seemed
@@ -43,7 +46,25 @@
      Milestone 3. -->
 
 ## Sample Chunks
+======================================================================
+Chunk 1  |  source: thread_bike_commute.txt#0  |  produced by: chunker.py::fallback_split
+======================================================================
+THREAD: Is a bike worth it for a 20 minute walk commute?
 
+--- reply 1 (14 votes) ---
+Yeah. Cuts an 18 minute walk to about 6. The thing nobody mentions is storage — covered bike parking exists at three buildings and is full by 9am at all three.
+
+--- reply 2 (9 votes) ---
+Counterpoint, I sold mine. Between November and March the paths are either icy or salted and salt destroys a drivetrain in one season.
+
+--- reply 3 (22 votes) ---
+Both true. I keep a cheap bike for September to November and walk the rest of the year. Total cost was about $120 for the bike and I don't care what happens to it.
+
+--- reply 4 (5 votes) ---
+If you do get one, the campus does free registration and it's the only reason I got mine back after it was taken.
+
+For each one, ask: could someone answer a question using only this,
+without reading what came before or after?
 <!-- Five chunks, pasted as text. Label each one and name the file it came from
      AND the function that produced it — the grader checks your code against
      what you claim here.
