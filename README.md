@@ -115,14 +115,26 @@ year-round.
 <!-- One complete question and answer, pasted as text, with the source line
      visible. Milestone 4. -->
 
-**Question:**
+**Question:** How long does the train take from Brightwater to the regional hub?
 
 **Answer:**
 
-```
+```text
+The train takes 50 minutes from Brightwater to the regional hub (source:
+`guide_brightwater.md` and `guide_regional_transport.md`).
+
+Sources retrieved: guide_brightwater.md, guide_marchwood.md,
+guide_pellew_sands.md, guide_regional_transport.md,
+guide_thornby_wells.md
 ```
 
-**My relevance cutoff:**
+**My relevance cutoff:** `0.58`
+
+The five covered questions had best distances from `0.2473` to `0.3609`,
+while the five out-of-scope questions ranged from `0.8026` to `0.9753`. I put
+the cutoff at `0.58`, approximately the midpoint between the hardest covered
+question (`0.3609`) and the closest out-of-scope question (`0.8026`). This
+leaves a clear margin on both sides of the gate.
 
 <!-- The number you set in config.py, and how you got there.
 
@@ -135,7 +147,16 @@ year-round.
 
 | Question | In corpus? | Best distance |
 |---|---|---|
-|  |  |  |
+| How long does the train take from Brightwater to the regional hub? | Yes | 0.2588 |
+| Does the Kestrelford bus service run on Sundays? | Yes | 0.2675 |
+| Which town is easiest for visitors with limited mobility? | Yes | 0.3609 |
+| What time of year is possibly the best week to visit Brightwater? | Yes | 0.3470 |
+| What weather condition closes the Halden Bay coastal path? | Yes | 0.2473 |
+| What is the capital of Mongolia? | No | 0.8026 |
+| How do I change the oil in a diesel engine? | No | 0.8881 |
+| Who won the 1994 World Cup? | No | 0.9753 |
+| What is the recommended dosage of ibuprofen for a headache? | No | 0.8350 |
+| How do I write a for loop in Rust? | No | 0.8365 |
 
 ## How I Used AI
 
