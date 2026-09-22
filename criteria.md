@@ -69,11 +69,16 @@ in at least 4 of 5 tries.
        - "No chunk is shorter than 200 characters, since anything below that
           in my corpus turned out to be a heading with no content under it." -->
 
-
+At least 4 of 5 sampled chunks begin and end with complete sentences and
+contain either a section heading or an explicit place name that identifies the
+chunk's subject.
 
 **Why this target:**
-
-
+All five chunks I inspected from the fallback chunker had a sentence fragment
+at one or both boundaries, including endings such as "15-", "mino", and
+"grou". I chose 4 of 5 because the city guides are organized into sections
+and paragraphs, so a paragraph-aware chunker should preserve context while
+allowing for one unusually long or difficult section.
 
 ---
 

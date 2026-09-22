@@ -30,10 +30,17 @@ This project uses the city_guides corpus, which contains longer travel guides co
 
 ## Chunking Strategy
 
-**Chunk size:** 500
-**Overlap:** 75
- moderate chunk size because the city_guides documents are much longer than the short posts in the other corpora, and useful information is often spread across several paragraphs within a section. 
-  75-token overlap so that information near the boundary between two chunks is less likely to be split apart. I considered using a larger chunk size, but the sectioned structure of the guides made it more useful to keep chunks focused while still preserving some surrounding context.
+**Chunk size:** 500-character soft target
+
+**Overlap:** 0 characters
+
+I chose a moderate target because the `city_guides` documents are long and
+their useful information is grouped into headed sections and paragraphs. The
+chunker keeps complete paragraphs together even when that makes a chunk a
+little longer than 500 characters, and it repeats the document and section
+headings when a section needs multiple chunks. I changed the planned overlap
+from 75 to 0 because arbitrary character overlap produced sentence fragments;
+the repeated headings now provide context without cutting words or sentences.
 
 <!-- What about YOUR documents made you pick these numbers? Short posts and
      long sectioned guides don't want the same chunking, and "800 seemed
@@ -46,57 +53,61 @@ This project uses the city_guides corpus, which contains longer travel guides co
      Milestone 3. -->
 
 ## Sample Chunks
-======================================================================
-Chunk 1  |  source: thread_bike_commute.txt#0  |  produced by: chunker.py::fallback_split
-======================================================================
-THREAD: Is a bike worth it for a 20 minute walk commute?
 
---- reply 1 (14 votes) ---
-Yeah. Cuts an 18 minute walk to about 6. The thing nobody mentions is storage — covered bike parking exists at three buildings and is full by 9am at all three.
+**Chunk 1** — source: `guide_accessibility.md#0` — produced by: `chunker.py::split_documents`
 
---- reply 2 (9 votes) ---
-Counterpoint, I sold mine. Between November and March the paths are either icy or salted and salt destroys a drivetrain in one season.
+```text
+# Getting around the region with limited mobility
 
---- reply 3 (22 votes) ---
-Both true. I keep a cheap bike for September to November and walk the rest of the year. Total cost was about $120 for the bike and I don't care what happens to it.
-
---- reply 4 (5 votes) ---
-If you do get one, the campus does free registration and it's the only reason I got mine back after it was taken.
-
-For each one, ask: could someone answer a question using only this,
-without reading what came before or after?
-<!-- Five chunks, pasted as text. Label each one and name the file it came from
-     AND the function that produced it — the grader checks your code against
-     what you claim here.
-
-     `python app.py chunks -n 5` prints all three for you. Copy them straight
-     across.
-
-     Milestone 3. -->
-
-**Chunk 1** — source: `` — produced by: ``
-
-```
+An honest assessment rather than a promotional one. Some of these places are
+difficult and it is better to know in advance.
 ```
 
-**Chunk 2** — source: `` — produced by: ``
+**Chunk 2** — source: `guide_corry_vale.md#4` — produced by: `chunker.py::split_documents`
 
-```
-```
+```text
+# Corry Vale
 
-**Chunk 3** — source: `` — produced by: ``
+## What to see
 
-```
-```
-
-**Chunk 4** — source: `` — produced by: ``
-
-```
+The valley itself is the attraction. The footpath network is dense and well marked, and a circuit taking in three of the four villages is about nine miles with 500 metres of ascent. The chapel in the second village is 12th century and always unlocked.
 ```
 
-**Chunk 5** — source: `` — produced by: ``
+**Chunk 3** — source: `guide_givens_mill.md#2` — produced by: `chunker.py::split_documents`
 
+```text
+# Givens Mill
+
+## Getting around
+
+Everything is on one street along the river. The mill is at one end and the church at the other, eight minutes apart. The riverside path continues in both directions for as far as you want to walk.
 ```
+
+**Chunk 4** — source: `guide_kestrelford.md#6` — produced by: `chunker.py::split_documents`
+
+```text
+# Kestrelford
+
+## When to go
+
+Late spring and early autumn. The Saturday market runs year-round but is much reduced from November to February. August is busy with walkers. The single-track approach road is genuinely difficult in snow and the town can be cut off for a day or two most winters.
+```
+
+**Chunk 5** — source: `guide_regional_transport.md#2` — produced by: `chunker.py::split_documents`
+
+```text
+# Getting around the region
+
+## Buses
+
+Three operators run in the region and they do not accept each other's tickets,
+which is the single most common source of confusion for visitors. Services
+concentrate on weekday daytimes. Sunday service is minimal to non-existent
+outside the Brightwater town routes.
+
+The Kestrelford service is hourly on weekdays, two-hourly on Saturdays, and
+does not run on Sundays. The Halden Bay coast service runs four times daily
+year-round.
 ```
 
 ## Sample Answer
