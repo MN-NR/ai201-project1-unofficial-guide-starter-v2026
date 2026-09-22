@@ -20,7 +20,7 @@
 # Unit 1
 
 ## What This Does
-This project uses the city_guides corpus, which contains longer travel guides covering nine towns along with guides that compare information across towns. The system is designed to answer questions about places other travel-related information. Because the information is organized under headings and can be spread across multiple paragraphs, the system needs to retrieve enough surrounding context to answer questions accurately. The goal is to return relevant sections of the guides rather than isolated sentences that may lose important context.
+This project uses the city_guides corpus, which contains longer travel guides covering nine towns along with guides that compare information across towns. The system is designed to answer questions about places and other travel-related information. Because the information is organized under headings and can be spread across multiple paragraphs, the system needs to retrieve enough surrounding context to answer questions accurately. The goal is to return relevant sections of the guides rather than isolated sentences that may lose important context.
 
 <!-- Three or four sentences. Which corpus you picked, and the kinds of
      questions your system answers. Write it for someone who has never seen
@@ -160,18 +160,8 @@ leaves a clear margin on both sides of the gate.
 
 ## How I Used AI
 
-<!-- Two specific moments. For each: what you asked for, what came back, and
-     what you changed about it.
-
-     "I asked Claude to write the chunking function from my notes. It ignored
-     the overlap, so I added that myself" is the level of detail we're after.
-     "I used AI to help me code" is not.
-
-     Milestone 5. -->
-
-**1.**
-
-**2.**
+1. I asked AI to review five chunks from the starter chunker. It identified broken words and incomplete sentences, such as “15-” and “mino.” Based on that feedback, I decided to use headings and complete paragraphs as chunk boundaries.
+2. I asked AI to help implement the custom chunker. It created a paragraph-aware strategy with a 500-character target and changed the overlap from 75 to 0. I ran the chunk command and verified that the new 101 chunks used complete paragraphs and included their headings.
 
 <!-- ── Stretch features ─────────────────────────────────────────────────────
      Doing one? Say so here BEFORE you start. A feature this README never
