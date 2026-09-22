@@ -82,22 +82,79 @@ def fallback_split(
 
 def split_documents(documents: list[Document]) -> list[Chunk]:
     """
-    Split documents into chunks. ⚠️ REPLACE THE BODY OF THIS IN MILESTONE 3.
+    Split Markdown guides at section and paragraph boundaries.
 
-    Right now it just calls the fallback. That is the plain, generic behaviour
-    the brief is talking about.
-
-    When you write your own strategy, set `produced_by` to
-    "chunker.py::split_documents" so your README's Sample Chunks section names
-    the right function. `app.py chunks` prints that string for you.
-
-    Things worth thinking about before you write any code:
-      - Are your documents short posts or long guides?
-      - Is the useful information in one sentence, or spread over a paragraph?
-      - Would splitting on paragraph breaks keep more thoughts intact than
-        splitting on a character count?
+    ``CHUNK_SIZE`` is a soft target. A complete paragraph is allowed to exceed
+    it because keeping a thought intact is more useful than cutting at an
+    arbitrary character. When a section needs several chunks, its document and
+    section headings are repeated so each result still identifies its subject.
     """
-    return fallback_split(documents)
+    chunks: list[Chunk] = []
+
+    for doc in documents:
+        blocks = [
+            block.strip()
+            for block in doc.text.split("\n\n")
+            if block.strip()
+        ]
+        if not blocks:
+            continue
+
+        document_heading = blocks[0] if blocks[0].startswith("# ") else ""
+        sections: list[tuple[str, list[str]]] = []
+        section_heading = document_heading
+        section_paragraphs: list[str] = []
+
+        for block in blocks[1:] if document_heading else blocks:
+            if block.startswith("#"):
+                if section_paragraphs:
+                    sections.append((section_heading, section_paragraphs))
+                section_heading = block
+                section_paragraphs = []
+            else:
+                section_paragraphs.append(block)
+
+        if section_paragraphs:
+            sections.append((section_heading, section_paragraphs))
+
+        index = 0
+        for heading, paragraphs in sections:
+            heading_parts = [part for part in (document_heading, heading) if part]
+            # Avoid repeating the document title in the introductory section.
+            heading_text = "\n\n".join(dict.fromkeys(heading_parts))
+            current_parts = [heading_text] if heading_text else []
+
+            for paragraph in paragraphs:
+                candidate = "\n\n".join([*current_parts, paragraph])
+                has_body = len(current_parts) > (1 if heading_text else 0)
+
+                if has_body and len(candidate) > config.CHUNK_SIZE:
+                    chunks.append(
+                        Chunk(
+                            text="\n\n".join(current_parts),
+                            source=doc.source,
+                            index=index,
+                            produced_by="chunker.py::split_documents",
+                        )
+                    )
+                    index += 1
+                    current_parts = [heading_text, paragraph] if heading_text else [paragraph]
+                else:
+                    current_parts.append(paragraph)
+
+            text = "\n\n".join(current_parts).strip()
+            if text:
+                chunks.append(
+                    Chunk(
+                        text=text,
+                        source=doc.source,
+                        index=index,
+                        produced_by="chunker.py::split_documents",
+                    )
+                )
+                index += 1
+
+    return chunks
 
 
 def describe(chunks: list[Chunk]) -> str:
