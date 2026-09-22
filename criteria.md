@@ -23,8 +23,10 @@ For at least 4 of my 5 test questions, the retrieved chunks include one that
 contains the answer.
 
 **Why this target:**
-<!-- e.g. "One of my questions is about a topic only two documents mention, so
-     I expect that one to be hard." -->
+My questions cover transport, accessibility, seasons, and walking, and several
+of the guides reuse the same town names and regional terms. I chose 4 of 5
+because the system should retrieve the correct section most of the time while
+allowing for one question whose wording matches several related guides.
 
 ---
 
@@ -33,8 +35,10 @@ contains the answer.
 Every answer the system produces names at least one source document.
 
 **Why this target:**
-<!-- Why all five and not four? What about your setup makes that achievable —
-     or what would have to go wrong for it not to be? -->
+Every retrieved chunk keeps its source filename, so the model has the
+information needed to cite a source for every answer. I chose all answers
+rather than 4 of 5 because an uncited travel answer cannot be checked against
+the guide and should not be treated as successfully grounded.
 
 ---
 
@@ -50,8 +54,10 @@ in at least 4 of 5 tries.
      just keep five of them, or the "4 of 5" above has nothing to be 4 of. -->
 
 **Why this target:**
-<!-- What did your distances look like when you set the cutoff in Milestone 4?
-     Was there a clean gap, or did the two groups overlap? -->
+The five out-of-scope questions concern topics far outside regional travel, so
+the gate should reject nearly all of them. I chose 4 of 5 instead of all five
+because semantic retrieval can occasionally match a generic word or phrase in
+an unrelated question even when the documents do not contain its answer.
 
 ---
 
@@ -92,11 +98,15 @@ allowing for one unusually long or difficult section.
      present — anything, as long as it names a number or an observable
      outcome. -->
 
-
+For at least 4 of my 5 test questions, every source named in the answer is one
+of the retrieved source documents and contains the fact used in the answer.
 
 **Why this target:**
-
-
+Criterion 2 checks only whether a source name is present, but a citation is
+useful only when it actually supports the answer. I chose 4 of 5 because facts
+about the same town can appear in several regional guides, which makes one
+source-attribution mistake possible while still requiring reliable citations
+for most questions.
 
 ---
 
